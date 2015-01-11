@@ -237,4 +237,10 @@ class OptionalTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Optional::of($value1)->equals('foo'));
         $this->assertTrue(Optional::newEmpty()->equals(Optional::newEmpty()));
     }
+
+    public function testStringCast()
+    {
+        $this->assertSame('Optional.empty', (string) Optional::newEmpty());
+        $this->assertSame('Optional[foo]', (string) Optional::of('foo'));
+    }
 }
