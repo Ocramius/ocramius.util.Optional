@@ -189,4 +189,11 @@ class OptionalTest extends PHPUnit_Framework_TestCase
 
         Optional::of(new stdClass())->flatMap($mapper);
     }
+
+    public function testOrElseRetrievesGivenValueOnEmptyOptional()
+    {
+        $value = new stdClass();
+
+        $this->assertSame($value, Optional::newEmpty()->orElse($value));
+    }
 }
