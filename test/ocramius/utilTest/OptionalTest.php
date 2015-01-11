@@ -32,9 +32,13 @@ class OptionalTest extends PHPUnit_Framework_TestCase
         $this->assertSame(Optional::newEmpty(), Optional::ofNullable(null));
     }
 
-    public function testOfNullableFromNonEmptyValueProducesNonEmptyInstance()
+    /**
+     * @dataProvider getValidValues
+     *
+     * @param mixed $value
+     */
+    public function testOfNullableFromNonEmptyValueProducesNonEmptyInstance($value)
     {
-        $value    = new stdClass();
         $optional = Optional::ofNullable($value);
 
         $this->assertNotSame(Optional::newEmpty(), $optional);
@@ -271,5 +275,24 @@ class OptionalTest extends PHPUnit_Framework_TestCase
     {
         $this->assertSame('Optional.empty', (string) Optional::newEmpty());
         $this->assertSame('Optional[foo]', (string) Optional::of('foo'));
+    }
+
+    /**
+     * Data provider: provides valid Optional values
+     *
+     * @return mixed[][]
+     */
+    public function getValidValues()
+    {
+        return [
+            [new stdClass()],
+            [$this->getMock('stdClass')],
+            [''],
+            ['foo'],
+            [123],
+            [123.456],
+            [['foo', 'bar']],
+            [[]],
+        ];
     }
 }
