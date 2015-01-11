@@ -331,7 +331,8 @@ final class Optional
      *
      * @return string the string representation of this instance
      */
-    public function __toString() {
+    public function __toString()
+    {
         return $this->value === null ? 'Optional.empty' : sprintf('Optional[%s]', $this->value);
     }
 }
