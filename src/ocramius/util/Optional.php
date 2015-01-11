@@ -288,18 +288,17 @@ final class Optional
      * argument list can be used as the supplier. For example,
      * {@code IllegalStateException::new}
      *
-     * @param <X> Type of the exception to be thrown
-     * @param exceptionSupplier The supplier which will return the exception to
+     * @param callable $exceptionSupplier The supplier which will return the exception to
      * be thrown
      * @return mixed the present value
      * @throws \Exception if there is no value present
      * @throws NullPointerException if no value is present and
      * {@code exceptionSupplier} is null
      */
-    public function orElseThrow(callable $exceptionBuilder)
+    public function orElseThrow(callable $exceptionSupplier)
     {
         if (null === $this->value) {
-            throw $exceptionBuilder();
+            throw $exceptionSupplier();
         }
 
         return $this->value;
