@@ -205,7 +205,6 @@ final class Optional
      * {@code map} returns an {@code Optional<FileInputStream>} for the desired
      * file if one exists.
      *
-     * @param <U> The type of the result of the mapping function
      * @param callable $mapper a mapping function to apply to the value, if present
      * @return self an {@code Optional} describing the result of applying a mapping
      * function to the value of this {@code Optional}, if a value is present,
@@ -229,7 +228,6 @@ final class Optional
      * and if invoked, {@code flatMap} does not wrap it with an additional
      * {@code Optional}.
      *
-     * @param <U> The type parameter to the {@code Optional} returned by
      * @param callable $mapper a mapping function to apply to the value, if present
      *           the mapping function
      * @return mixed the result of applying an {@code Optional}-bearing mapping
