@@ -46,4 +46,14 @@ class OptionalTest extends PHPUnit_Framework_TestCase
 
         Optional::of(null);
     }
+
+    public function testOfFromNonEmptyValueProducesNonEmptyInstance()
+    {
+        $value    = new stdClass();
+        $optional = Optional::of($value);
+
+        $this->assertNotSame(Optional::newEmpty(), $optional);
+
+        $this->assertSame($value, $optional->get());
+    }
 }
