@@ -87,4 +87,14 @@ class OptionalTest extends PHPUnit_Framework_TestCase
 
         Optional::of($value)->ifPresent($calledOnce);
     }
+
+    public function testFilterIsNotExecutedIfValueIsNotPresent()
+    {
+        /* @var $neverCalled callable|\PHPUnit_Framework_MockObject_MockObject */
+        $neverCalled = $this->getMock('stdClass', ['__invoke']);
+
+        $neverCalled->expects($this->never())->method('__invoke');
+
+        $this->assertSame(Optional::newEmpty(), Optional::newEmpty()->filter($neverCalled));
+    }
 }
