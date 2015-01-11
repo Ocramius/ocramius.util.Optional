@@ -3,6 +3,7 @@
 namespace ocramius\utilTest;
 
 
+use ocramius\util\exception\NullPointerException;
 use ocramius\util\Optional;
 use PHPUnit_Framework_TestCase;
 
@@ -21,5 +22,10 @@ class OptionalTest extends PHPUnit_Framework_TestCase
     public function testNewEmptyProducesEmptyInstance()
     {
         $this->assertFalse(Optional::newEmpty()->isPresent());
+    }
+
+    public function testGettingFromEmptyValueReturnsAnEmptyInstance()
+    {
+        $this->assertSame(Optional::newEmpty(), Optional::ofNullable(null));
     }
 }
