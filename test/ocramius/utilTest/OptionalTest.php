@@ -225,4 +225,16 @@ class OptionalTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame($value, Optional::of($value)->orElseGet($fallback));
     }
+
+    public function testEquals()
+    {
+        $value1 = new stdClass();
+        $value2 = new stdClass();
+
+        $this->assertFalse(Optional::of($value1)->equals(Optional::of($value2)));
+        $this->assertTrue(Optional::of($value1)->equals(Optional::of($value1)));
+        $this->assertFalse(Optional::of($value1)->equals($value1));
+        $this->assertFalse(Optional::of($value1)->equals('foo'));
+        $this->assertTrue(Optional::newEmpty()->equals(Optional::newEmpty()));
+    }
 }
