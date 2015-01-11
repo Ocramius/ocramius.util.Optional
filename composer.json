@@ -23,13 +23,13 @@
     },
     "autoload": {
         "psr-0": {
-            "Ocramius\\Util\\": "src"
+            "ocramius\\util\\": "src"
         }
     },
     "autoload-dev": {
         "psr-0": {
-            "Ocramius\\UtilTest\\": "tests",
-            "Ocramius\\UtilTestAsset\\": "tests"
+            "ocramius\\utilTest\\": "tests",
+            "ocramius\\utilTestAsset\\": "tests"
         }
     }
 }
