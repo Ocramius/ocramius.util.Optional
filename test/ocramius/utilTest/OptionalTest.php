@@ -196,4 +196,11 @@ class OptionalTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame($value, Optional::newEmpty()->orElse($value));
     }
+
+    public function testOrElseRetrievesOptionalValueWhenValueIsPresent()
+    {
+        $value = new stdClass();
+
+        $this->assertSame($value, Optional::of($value)->orElse(new stdClass()));
+    }
 }
