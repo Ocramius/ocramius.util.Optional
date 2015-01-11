@@ -29,11 +29,6 @@ namespace ocramius\util\exception;
 /**
  * Thrown by various accessor methods to indicate that the element being requested
  * does not exist.
- *
- * @author  unascribed
- * @see     java.util.Enumeration#nextElement()
- * @see     java.util.Iterator#next()
- * @since   JDK1.0
  */
 class NoSuchElementException extends \RuntimeException
 {
