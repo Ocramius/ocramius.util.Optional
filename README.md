@@ -16,3 +16,8 @@ Because of PHP's current limitations, I had to rewrite some bits of the Java imp
  * `Optional#toString()` is named `Optional#__toString()` in accordance to 
    [PHP magic methods naming](http://php.net/manual/en/language.oop5.magic.php#object.tostring)
  * `Consumer`, `Predicate`, `Function` and `Supplier` arguments are simply `callable`, for simplicity and flexibility.
+
+## License
+
+Since this library is a direct port of the OpenJDK sources, I have to keep the original license in place, which is
+GPLv2 + ClassPath exceptions.
