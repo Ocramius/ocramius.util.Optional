@@ -12,7 +12,7 @@
     syntaxCheck="true"
 >
     <testsuite name="ocramius\util\Optional tests">
-        <directory>./tests/ProxyManagerTest</directory>
+        <directory>./test/ocramius/utilTest</directory>
     </testsuite>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
