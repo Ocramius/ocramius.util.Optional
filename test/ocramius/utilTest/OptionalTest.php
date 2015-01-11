@@ -15,7 +15,7 @@ use stdClass;
  */
 class OptionalTest extends PHPUnit_Framework_TestCase
 {
-    public function testNewEmptyAlwaysReturnsSameInstance()
+    public function testNewEmptyAlwaysProducesSameInstance()
     {
         $this->assertSame(Optional::newEmpty(), Optional::newEmpty());
     }
@@ -25,12 +25,12 @@ class OptionalTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Optional::newEmpty()->isPresent());
     }
 
-    public function testOfNullableFromEmptyValueReturnsAnEmptyInstance()
+    public function testOfNullableFromEmptyValueProducesAnEmptyInstance()
     {
         $this->assertSame(Optional::newEmpty(), Optional::ofNullable(null));
     }
 
-    public function testOfNullableFromNonEmptyValueReturnsNonEmptyInstance()
+    public function testOfNullableFromNonEmptyValueProducesNonEmptyInstance()
     {
         $value    = new stdClass();
         $optional = Optional::ofNullable($value);
