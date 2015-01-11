@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Ocramius/ocramius.util.Optional.svg?branch=master)](https://travis-ci.org/Ocramius/ocramius.util.Optional)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Ocramius/ocramius.util.Optional/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Ocramius/ocramius.util.Optional/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/Ocramius/ocramius.util.Optional/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Ocramius/ocramius.util.Optional/?branch=master)
 
 This package is a PHP port of the `java.util.Optional` class in the 
 [OpenJDK](http://hg.openjdk.java.net/lambda/lambda/jdk/file/tip/src/share/classes/java/util/Optional.java) libraries.
