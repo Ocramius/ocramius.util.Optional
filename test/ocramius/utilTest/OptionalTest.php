@@ -215,7 +215,7 @@ class OptionalTest extends PHPUnit_Framework_TestCase
         $this->assertSame($value, Optional::newEmpty()->orElseGet($fallback));
     }
 
-    public function testOrElseThrowRetrievesGivenValueOnEmptyOptional()
+    public function testOrElseThrowRetrievesGivenValueWhenValueIsAvailable()
     {
         $value             = new stdClass();
         /* @var $exceptionFactory callable|\PHPUnit_Framework_MockObject_MockObject */
