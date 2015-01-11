@@ -38,6 +38,7 @@ class OptionalTest extends PHPUnit_Framework_TestCase
 
         $this->assertNotSame(Optional::newEmpty(), $optional);
 
+        $this->assertTrue($optional->isPresent());
         $this->assertSame($value, $optional->get());
     }
 
@@ -55,6 +56,7 @@ class OptionalTest extends PHPUnit_Framework_TestCase
 
         $this->assertNotSame(Optional::newEmpty(), $optional);
 
+        $this->assertTrue($optional->isPresent());
         $this->assertSame($value, $optional->get());
     }
 
