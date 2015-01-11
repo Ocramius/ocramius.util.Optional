@@ -25,12 +25,12 @@ class OptionalTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Optional::newEmpty()->isPresent());
     }
 
-    public function testCreationFromEmptyValueReturnsAnEmptyInstance()
+    public function testOfNullableFromEmptyValueReturnsAnEmptyInstance()
     {
         $this->assertSame(Optional::newEmpty(), Optional::ofNullable(null));
     }
 
-    public function testCreationFromNonEmptyValueReturnsNonEmptyInstance()
+    public function testOfNullableFromNonEmptyValueReturnsNonEmptyInstance()
     {
         $value    = new stdClass();
         $optional = Optional::ofNullable($value);
@@ -40,7 +40,7 @@ class OptionalTest extends PHPUnit_Framework_TestCase
         $this->assertSame($value, $optional->get());
     }
 
-    public function testCreationFromEmptyValueCausesExceptionWhenDisallowed()
+    public function testOfFromEmptyValueCausesExceptionWhenDisallowed()
     {
         $this->setExpectedException(NullPointerException::class);
 
