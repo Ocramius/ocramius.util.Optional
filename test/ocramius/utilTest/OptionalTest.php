@@ -203,4 +203,15 @@ class OptionalTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame($value, Optional::of($value)->orElse(new stdClass()));
     }
+
+    public function testOrElseGetRetrievesCallableReturnValueOnEmptyOptional()
+    {
+        $value    = new stdClass();
+        /* @var $fallback callable|\PHPUnit_Framework_MockObject_MockObject */
+        $fallback = $this->getMock('stdClass', ['__invoke']);
+
+        $fallback->expects($this->once())->method('__invoke')->will($this->returnValue($value));
+
+        $this->assertSame($value, Optional::newEmpty()->orElseGet($fallback));
+    }
 }
