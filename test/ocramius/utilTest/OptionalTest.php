@@ -97,4 +97,15 @@ class OptionalTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame(Optional::newEmpty(), Optional::newEmpty()->filter($neverCalled));
     }
+
+    public function testFilteringProducesEmptyOptionalWhenValueIsNotAccepted()
+    {
+        $value       = new stdClass();
+        /* @var $falseFilter callable|\PHPUnit_Framework_MockObject_MockObject */
+        $falseFilter = $this->getMock('stdClass', ['__invoke']);
+
+        $falseFilter->expects($this->once())->method('__invoke')->with($value)->will($this->returnValue(false));
+
+        $this->assertSame(Optional::newEmpty(), Optional::of($value)->filter($falseFilter));
+    }
 }
