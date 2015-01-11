@@ -17,4 +17,9 @@ class OptionalTest extends PHPUnit_Framework_TestCase
     {
         $this->assertSame(Optional::newEmpty(), Optional::newEmpty());
     }
+
+    public function testNewEmptyProducesEmptyInstance()
+    {
+        $this->assertFalse(Optional::newEmpty()->isPresent());
+    }
 }
