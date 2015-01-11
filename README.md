@@ -3,6 +3,9 @@
 [![Build Status](https://travis-ci.org/Ocramius/ocramius.util.Optional.svg?branch=master)](https://travis-ci.org/Ocramius/ocramius.util.Optional)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Ocramius/ocramius.util.Optional/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Ocramius/ocramius.util.Optional/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/Ocramius/ocramius.util.Optional/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Ocramius/ocramius.util.Optional/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/ocramius/optional/v/stable.svg)](https://packagist.org/packages/ocramius/optional)
+[![Latest Unstable Version](https://poser.pugx.org/ocramius/optional/v/unstable.svg)](https://packagist.org/packages/ocramius/optional)
+[![License](https://poser.pugx.org/ocramius/optional/license.svg)](https://packagist.org/packages/ocramius/optional)
 
 This package is a PHP port of the `java.util.Optional` class in the 
 [OpenJDK](http://hg.openjdk.java.net/lambda/lambda/jdk/file/tip/src/share/classes/java/util/Optional.java) libraries.
@@ -15,8 +18,6 @@ You can find the API of `java.lang.Optional` in the
 ```sh
 composer require ocramius/optional:dev-master
 ```
-
-This package is still not stable, but there shouldn't be any breaking changes before `1.0.0`.
 
 ## Differences with the Java implementation
 
