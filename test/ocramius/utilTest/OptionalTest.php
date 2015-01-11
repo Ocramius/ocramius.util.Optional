@@ -67,15 +67,24 @@ class OptionalTest extends PHPUnit_Framework_TestCase
         Optional::newEmpty()->get();
     }
 
-    public function testIfPresentIsRunOnlyWithWhenValueIsPresent()
+    public function testIfPresentIsNotExecutedIfValueIsNotPresent()
     {
-        $value    = new stdClass();
-        /* @var $callable callable|\PHPUnit_Framework_MockObject_MockObject */
-        $callable = $this->getMock('stdClass', ['__invoke']);
+        /* @var $neverCalled callable|\PHPUnit_Framework_MockObject_MockObject */
+        $neverCalled = $this->getMock('stdClass', ['__invoke']);
 
-        $callable->expects($this->once())->method('__invoke')->with($value);
+        $neverCalled->expects($this->never())->method('__invoke');
 
-        Optional::newEmpty()->ifPresent($callable);
-        Optional::of($value)->ifPresent($callable);
+        Optional::newEmpty()->ifPresent($neverCalled);
+    }
+
+    public function testIfPresentIsExecutedWhenValueIsPresent()
+    {
+        $value      = new stdClass();
+        /* @var $calledOnce callable|\PHPUnit_Framework_MockObject_MockObject */
+        $calledOnce = $this->getMock('stdClass', ['__invoke']);
+
+        $calledOnce->expects($this->once())->method('__invoke')->with($value);
+
+        Optional::of($value)->ifPresent($calledOnce);
     }
 }
