@@ -39,4 +39,11 @@ class OptionalTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame($value, $optional->get());
     }
+
+    public function testCreationFromEmptyValueCausesExceptionWhenDisallowed()
+    {
+        $this->setExpectedException(NullPointerException::class);
+
+        Optional::of(null);
+    }
 }
