@@ -3,6 +3,7 @@
 namespace ocramius\utilTest;
 
 
+use Exception;
 use ocramius\util\exception\NoSuchElementException;
 use ocramius\util\exception\NullPointerException;
 use ocramius\util\Optional;
@@ -224,6 +225,23 @@ class OptionalTest extends PHPUnit_Framework_TestCase
         $exceptionFactory->expects($this->never())->method('__invoke');
 
         $this->assertSame($value, Optional::of($value)->orElseThrow($exceptionFactory));
+    }
+
+    public function testOrElseThrowThrowsExceptionOnEmptyOptional()
+    {
+        $exception        = new Exception();
+        /* @var $exceptionFactory callable|\PHPUnit_Framework_MockObject_MockObject */
+        $exceptionFactory = $this->getMock('stdClass', ['__invoke']);
+
+        $exceptionFactory->expects($this->once())->method('__invoke')->will($this->returnValue($exception));
+
+        try {
+            Optional::newEmpty()->orElseThrow($exceptionFactory);
+
+            $this->fail('No exception was thrown, expected Optional#orElseThrow() to throw one');
+        } catch (Exception $caught) {
+            $this->assertSame($exception, $caught);
+        }
     }
 
     public function testOrElseGetRetrievesOptionalValueIfValueIsPresent()
