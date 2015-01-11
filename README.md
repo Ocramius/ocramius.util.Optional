@@ -15,3 +15,4 @@ Because of PHP's current limitations, I had to rewrite some bits of the Java imp
    This may change in future, but I don't plan to do it right now.
  * `Optional#toString()` is named `Optional#__toString()` in accordance to 
    [PHP magic methods naming](http://php.net/manual/en/language.oop5.magic.php#object.tostring)
+ * `Consumer`, `Predicate`, `Function` and `Supplier` arguments are simply `callable`, for simplicity and flexibility.
