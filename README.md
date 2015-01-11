@@ -1,3 +1,8 @@
+## `ocramius\util\Optional`
+
+This package is a PHP port of the `java.util.Optional` class in the 
+[OpenJDK](http://hg.openjdk.java.net/lambda/lambda/jdk/file/tip/src/share/classes/java/util/Optional.java) libraries.
+
 # differences
 
  -> empty() -> newEmpty()
