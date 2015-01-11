@@ -177,4 +177,16 @@ class OptionalTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame($mappedValue, Optional::of($value)->flatMap($mapper));
     }
+
+    public function testFlatMappingNonEmptyOptionalDisallowsEmptyMapperResult()
+    {
+        /* @var $mapper callable|\PHPUnit_Framework_MockObject_MockObject */
+        $mapper = $this->getMock('stdClass', ['__invoke']);
+
+        $mapper->expects($this->once())->method('__invoke')->will($this->returnValue(null));
+
+        $this->setExpectedException(NullPointerException::class);
+
+        Optional::of(new stdClass())->flatMap($mapper);
+    }
 }
