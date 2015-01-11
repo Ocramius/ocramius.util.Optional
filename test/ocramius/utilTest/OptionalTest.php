@@ -165,4 +165,16 @@ class OptionalTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame(Optional::newEmpty(), Optional::newEmpty()->flatMap($neverCalled));
     }
+
+    public function testFlatMappingNonEmptyOptionalProducesNonEmptyOptional()
+    {
+        $value       = new stdClass();
+        $mappedValue = new stdClass();
+        /* @var $mapper callable|\PHPUnit_Framework_MockObject_MockObject */
+        $mapper      = $this->getMock('stdClass', ['__invoke']);
+
+        $mapper->expects($this->once())->method('__invoke')->with($value)->will($this->returnValue($mappedValue));
+
+        $this->assertSame($mappedValue, Optional::of($value)->flatMap($mapper));
+    }
 }
