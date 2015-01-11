@@ -3,6 +3,7 @@
 namespace ocramius\utilTest;
 
 
+use ocramius\util\exception\NoSuchElementException;
 use ocramius\util\exception\NullPointerException;
 use ocramius\util\Optional;
 use PHPUnit_Framework_TestCase;
@@ -55,5 +56,12 @@ class OptionalTest extends PHPUnit_Framework_TestCase
         $this->assertNotSame(Optional::newEmpty(), $optional);
 
         $this->assertSame($value, $optional->get());
+    }
+
+    public function testEmptyValueDisallowsGettingWrappedValue()
+    {
+        $this->setExpectedException(NoSuchElementException::class);
+
+        Optional::newEmpty()->get();
     }
 }
