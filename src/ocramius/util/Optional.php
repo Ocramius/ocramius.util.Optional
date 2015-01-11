@@ -206,8 +206,8 @@ final class Optional
      * file if one exists.
      *
      * @param <U> The type of the result of the mapping function
-     * @param mapper a mapping function to apply to the value, if present
-     * @return an {@code Optional} describing the result of applying a mapping
+     * @param callable $mapper a mapping function to apply to the value, if present
+     * @return self an {@code Optional} describing the result of applying a mapping
      * function to the value of this {@code Optional}, if a value is present,
      * otherwise an empty {@code Optional}
      * @throws NullPointerException if the mapping function is null
