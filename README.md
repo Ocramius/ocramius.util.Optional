@@ -10,6 +10,14 @@ This package is a PHP port of the `java.util.Optional` class in the
 You can find the API of `java.lang.Optional` in the 
 [Java 8 API docs](http://docs.oracle.com/javase/8/docs/api/java/util/Optional.html).
 
+## Installation
+
+```sh
+composer require ocramius/optional:dev-master
+```
+
+This package is still not stable, but there shouldn't be any breaking changes before `1.0.0`.
+
 ## Differences with the Java implementation
 
 Because of PHP's current limitations, I had to rewrite some bits of the Java implementation as follows:
