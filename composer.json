@@ -6,8 +6,7 @@
     "homepage":          "https://github.com/Ocramius/Optional",
     "keywords":          [
         "java",
-        "optional",
-        "php"
+        "optional"
     ],
     "authors": [
         {
