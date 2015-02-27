@@ -6,7 +6,8 @@
     "homepage":          "https://github.com/Ocramius/Optional",
     "keywords":          [
         "java",
-        "optional"
+        "optional",
+        "php"
     ],
     "authors": [
         {
@@ -19,7 +20,8 @@
         "php": "~5.5"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.0"
+        "phpunit/phpunit": "~4.0",
+        "squizlabs/php_codesniffer": "2.*"
     },
     "autoload": {
         "psr-0": {

@@ -2,7 +2,6 @@
 
 namespace ocramius\utilTest;
 
-
 use Exception;
 use ocramius\util\exception\NoSuchElementException;
 use ocramius\util\exception\NullPointerException;
