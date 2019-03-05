@@ -6,7 +6,8 @@ use Exception;
 use ocramius\util\exception\NoSuchElementException;
 use ocramius\util\exception\NullPointerException;
 use ocramius\util\Optional;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 
 /**
@@ -14,7 +15,7 @@ use stdClass;
  *
  * @covers \ocramius\util\Optional
  */
-class OptionalTest extends PHPUnit_Framework_TestCase
+class OptionalTest extends TestCase
 {
     public function testNewEmptyAlwaysProducesSameInstance()
     {
@@ -48,7 +49,7 @@ class OptionalTest extends PHPUnit_Framework_TestCase
 
     public function testOfFromEmptyValueCausesExceptionWhenDisallowed()
     {
-        $this->setExpectedException(NullPointerException::class);
+        $this->expectException(NullPointerException::class);
 
         Optional::of(null);
     }
@@ -70,15 +71,20 @@ class OptionalTest extends PHPUnit_Framework_TestCase
 
     public function testEmptyValueDisallowsGettingWrappedValue()
     {
-        $this->setExpectedException(NoSuchElementException::class);
+        $this->expectException(NoSuchElementException::class);
 
         Optional::newEmpty()->get();
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function testIfPresentIsNotExecutedIfValueIsNotPresent()
     {
-        /* @var $neverCalled callable|\PHPUnit_Framework_MockObject_MockObject */
-        $neverCalled = $this->getMock('stdClass', ['__invoke']);
+        /* @var $neverCalled callable|MockObject */
+        $neverCalled = $this->getMockBuilder(stdClass::class)
+            ->setMethods(['__invoke'])
+            ->getMock();
 
         $neverCalled->expects($this->never())->method('__invoke');
 
@@ -89,21 +95,30 @@ class OptionalTest extends PHPUnit_Framework_TestCase
      * @dataProvider getValidValues
      *
      * @param mixed $value
+     *
+     * @throws \ReflectionException
      */
     public function testIfPresentIsExecutedWhenValueIsPresent($value)
     {
-        /* @var $calledOnce callable|\PHPUnit_Framework_MockObject_MockObject */
-        $calledOnce = $this->getMock('stdClass', ['__invoke']);
+        /* @var $calledOnce callable|MockObject */
+        $calledOnce = $this->getMockBuilder(stdClass::class)
+            ->setMethods(['__invoke'])
+            ->getMock();
 
         $calledOnce->expects($this->once())->method('__invoke')->with($value);
 
         Optional::of($value)->ifPresent($calledOnce);
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function testFilterIsNotExecutedIfValueIsNotPresent()
     {
-        /* @var $neverCalled callable|\PHPUnit_Framework_MockObject_MockObject */
-        $neverCalled = $this->getMock('stdClass', ['__invoke']);
+        /* @var $neverCalled callable|MockObject */
+        $neverCalled = $this->getMockBuilder(stdClass::class)
+            ->setMethods(['__invoke'])
+            ->getMock();;
 
         $neverCalled->expects($this->never())->method('__invoke');
 
@@ -114,11 +129,15 @@ class OptionalTest extends PHPUnit_Framework_TestCase
      * @dataProvider getValidValues
      *
      * @param mixed $value
+     *
+     * @throws \ReflectionException
      */
     public function testFilteringProducesEmptyOptionalWhenValueIsNotAccepted($value)
     {
-        /* @var $falseFilter callable|\PHPUnit_Framework_MockObject_MockObject */
-        $falseFilter = $this->getMock('stdClass', ['__invoke']);
+        /* @var $falseFilter callable|MockObject */
+        $falseFilter = $this->getMockBuilder(stdClass::class)
+            ->setMethods(['__invoke'])
+            ->getMock();
 
         $falseFilter->expects($this->once())->method('__invoke')->with($value)->will($this->returnValue(false));
 
@@ -129,11 +148,15 @@ class OptionalTest extends PHPUnit_Framework_TestCase
      * @dataProvider getValidValues
      *
      * @param mixed $value
+     *
+     * @throws \ReflectionException
      */
     public function testFilteringProducesSameOptionalInstanceWhenValueIsAccepted($value)
     {
-        /* @var $falseFilter callable|\PHPUnit_Framework_MockObject_MockObject */
-        $falseFilter = $this->getMock('stdClass', ['__invoke']);
+        /* @var $falseFilter callable|MockObject */
+        $falseFilter = $this->getMockBuilder(stdClass::class)
+            ->setMethods(['__invoke'])
+            ->getMock();
         $optional    = Optional::of($value);
 
         $falseFilter->expects($this->once())->method('__invoke')->with($value)->will($this->returnValue(true));
@@ -141,10 +164,15 @@ class OptionalTest extends PHPUnit_Framework_TestCase
         $this->assertSame($optional, $optional->filter($falseFilter));
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function testMappingEmptyOptionalProducesEmptyOptional()
     {
-        /* @var $neverCalled callable|\PHPUnit_Framework_MockObject_MockObject */
-        $neverCalled = $this->getMock('stdClass', ['__invoke']);
+        /* @var $neverCalled callable|MockObject */
+        $neverCalled = $this->getMockBuilder(stdClass::class)
+            ->setMethods(['__invoke'])
+            ->getMock();
 
         $neverCalled->expects($this->never())->method('__invoke');
 
@@ -155,12 +183,16 @@ class OptionalTest extends PHPUnit_Framework_TestCase
      * @dataProvider getValidValues
      *
      * @param mixed $value
+     *
+     * @throws \ReflectionException
      */
     public function testMappingNonEmptyValuesProducesOptionalWithMapMethodReturnValue($value)
     {
         $mappedValue = new stdClass();
-        /* @var $mapper callable|\PHPUnit_Framework_MockObject_MockObject */
-        $mapper      = $this->getMock('stdClass', ['__invoke']);
+        /* @var $mapper callable|MockObject */
+        $mapper      = $this->getMockBuilder(stdClass::class)
+            ->setMethods(['__invoke'])
+            ->getMock();
 
         $mapper->expects($this->once())->method('__invoke')->with($value)->will($this->returnValue($mappedValue));
 
@@ -170,20 +202,30 @@ class OptionalTest extends PHPUnit_Framework_TestCase
         $this->assertSame($mappedValue, $optional->get());
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function testMappingNonEmptyValuesMayProduceEmptyOptional()
     {
-        /* @var $mapper callable|\PHPUnit_Framework_MockObject_MockObject */
-        $mapper = $this->getMock('stdClass', ['__invoke']);
+        /* @var $mapper callable|MockObject */
+        $mapper = $this->getMockBuilder(stdClass::class)
+            ->setMethods(['__invoke'])
+            ->getMock();
 
         $mapper->expects($this->once())->method('__invoke')->will($this->returnValue(null));
 
         $this->assertSame(Optional::newEmpty(), Optional::of(new stdClass())->map($mapper));
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function testFlatMappingEmptyOptionalProducesEmptyOptional()
     {
-        /* @var $neverCalled callable|\PHPUnit_Framework_MockObject_MockObject */
-        $neverCalled = $this->getMock('stdClass', ['__invoke']);
+        /* @var $neverCalled callable|MockObject */
+        $neverCalled = $this->getMockBuilder(stdClass::class)
+            ->setMethods(['__invoke'])
+            ->getMock();
 
         $neverCalled->expects($this->never())->method('__invoke');
 
@@ -194,26 +236,35 @@ class OptionalTest extends PHPUnit_Framework_TestCase
      * @dataProvider getValidValues
      *
      * @param mixed $value
+     *
+     * @throws \ReflectionException
      */
     public function testFlatMappingNonEmptyOptionalProducesNonEmptyOptional($value)
     {
         $mappedValue = new stdClass();
-        /* @var $mapper callable|\PHPUnit_Framework_MockObject_MockObject */
-        $mapper      = $this->getMock('stdClass', ['__invoke']);
+        /* @var $mapper callable|MockObject */
+        $mapper      = $this->getMockBuilder(stdClass::class)
+            ->setMethods(['__invoke'])
+            ->getMock();
 
         $mapper->expects($this->once())->method('__invoke')->with($value)->will($this->returnValue($mappedValue));
 
         $this->assertSame($mappedValue, Optional::of($value)->flatMap($mapper));
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function testFlatMappingNonEmptyOptionalDisallowsEmptyMapperResult()
     {
-        /* @var $mapper callable|\PHPUnit_Framework_MockObject_MockObject */
-        $mapper = $this->getMock('stdClass', ['__invoke']);
+        /* @var $mapper callable|MockObject */
+        $mapper = $this->getMockBuilder(stdClass::class)
+            ->setMethods(['__invoke'])
+            ->getMock();
 
         $mapper->expects($this->once())->method('__invoke')->will($this->returnValue(null));
 
-        $this->setExpectedException(NullPointerException::class);
+        $this->expectException(NullPointerException::class);
 
         Optional::of(new stdClass())->flatMap($mapper);
     }
@@ -242,11 +293,15 @@ class OptionalTest extends PHPUnit_Framework_TestCase
      * @dataProvider getValidValues
      *
      * @param mixed $value
+     *
+     * @throws \ReflectionException
      */
     public function testOrElseGetRetrievesCallableReturnValueOnEmptyOptional($value)
     {
-        /* @var $fallback callable|\PHPUnit_Framework_MockObject_MockObject */
-        $fallback = $this->getMock('stdClass', ['__invoke']);
+        /* @var $fallback callable|MockObject */
+        $fallback = $this->getMockBuilder(stdClass::class)
+            ->setMethods(['__invoke'])
+            ->getMock();
 
         $fallback->expects($this->once())->method('__invoke')->will($this->returnValue($value));
 
@@ -257,22 +312,32 @@ class OptionalTest extends PHPUnit_Framework_TestCase
      * @dataProvider getValidValues
      *
      * @param mixed $value
+     *
+     * @throws \ReflectionException
+     * @throws Exception
      */
     public function testOrElseThrowRetrievesGivenValueWhenValueIsAvailable($value)
     {
-        /* @var $exceptionFactory callable|\PHPUnit_Framework_MockObject_MockObject */
-        $exceptionFactory = $this->getMock('stdClass', ['__invoke']);
+        /* @var $exceptionFactory callable|MockObject */
+        $exceptionFactory = $this->getMockBuilder(stdClass::class)
+            ->setMethods(['__invoke'])
+            ->getMock();
 
         $exceptionFactory->expects($this->never())->method('__invoke');
 
         $this->assertSame($value, Optional::of($value)->orElseThrow($exceptionFactory));
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function testOrElseThrowThrowsExceptionOnEmptyOptional()
     {
         $exception        = new Exception();
-        /* @var $exceptionFactory callable|\PHPUnit_Framework_MockObject_MockObject */
-        $exceptionFactory = $this->getMock('stdClass', ['__invoke']);
+        /* @var $exceptionFactory callable|MockObject */
+        $exceptionFactory = $this->getMockBuilder(stdClass::class)
+            ->setMethods(['__invoke'])
+            ->getMock();
 
         $exceptionFactory->expects($this->once())->method('__invoke')->will($this->returnValue($exception));
 
@@ -289,11 +354,15 @@ class OptionalTest extends PHPUnit_Framework_TestCase
      * @dataProvider getValidValues
      *
      * @param mixed $value
+     *
+     * @throws \ReflectionException
      */
     public function testOrElseGetRetrievesOptionalValueIfValueIsPresent($value)
     {
-        /* @var $fallback callable|\PHPUnit_Framework_MockObject_MockObject */
-        $fallback = $this->getMock('stdClass', ['__invoke']);
+        /* @var $fallback callable|MockObject */
+        $fallback = $this->getMockBuilder(stdClass::class)
+            ->setMethods(['__invoke'])
+            ->getMock();
 
         $fallback->expects($this->never())->method('__invoke');
 
@@ -342,12 +411,13 @@ class OptionalTest extends PHPUnit_Framework_TestCase
      * Data provider: provides valid Optional values
      *
      * @return mixed[][]
+     * @throws \ReflectionException
      */
     public function getValidValues()
     {
         return [
             [new stdClass()],
-            [$this->getMock('stdClass')],
+            [$this->createMock(stdClass::class)],
             [''],
             ['foo'],
             [123],

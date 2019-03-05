@@ -1,26 +1,32 @@
 {
-    "name":              "ocramius/optional",
-    "description":       "A port of java.util.Optional to PHP",
-    "type":              "library",
-    "license":           "GPL-2.0",
-    "homepage":          "https://github.com/Ocramius/Optional",
-    "keywords":          [
+    "name": "ocramius/optional",
+    "description": "A port of java.util.Optional to PHP",
+    "type": "library",
+    "license": "GPL-2.0",
+    "homepage": "https://github.com/Ocramius/Optional",
+    "keywords": [
         "java",
         "optional"
     ],
     "authors": [
         {
-            "name":     "Marco Pivetta",
-            "email":    "ocramius@gmail.com",
+            "name": "Marco Pivetta",
+            "email": "ocramius@gmail.com",
             "homepage": "http://ocramius.github.io/"
+        },
+        {
+            "name": "Niklas Schöllhorn",
+            "email": "schoellhorn.niklas@gmail.com",
+            "role": "Maintainer"
         }
     ],
     "require": {
-        "php": "^7.2"
+        "php": "^7.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.0",
-        "squizlabs/php_codesniffer": "2.*"
+        "phpunit/phpunit": "^8.0.4",
+        "squizlabs/php_codesniffer": "^3.4.0",
+        "doctrine/coding-standard": "^5.0"
     },
     "autoload": {
         "psr-0": {

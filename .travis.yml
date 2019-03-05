@@ -1,9 +1,7 @@
 language: php
 
 php:
-  - 7.2
-  - hhvm
-  - hhvm-nightly
+  - 7.3
 
 before_script:
   - sh .travis.install.sh
@@ -11,11 +9,6 @@ before_script:
 script:
   - ./vendor/bin/phpunit --disallow-test-output --report-useless-tests --coverage-clover ./clover.xml
   - ./vendor/bin/phpcs --standard=PSR2 ./src ./test
-
-matrix:
-  allow_failures:
-    - php: hhvm
-    - php: hhvm-nightly
 
 after_script:
   - sh .travis.coverage.sh
