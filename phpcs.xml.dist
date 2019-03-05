@@ -13,7 +13,7 @@
 
     <!-- Use doctrine/coding-standard -->
     <rule ref="Doctrine">
-        <exclude name="SlevomatCodingStandard.Classes.UnusedPrivateElements"/>
+        <exclude name="SlevomatCodingStandard.Classes.SuperfluousExceptionNaming"/>
     </rule>
 
 </ruleset>

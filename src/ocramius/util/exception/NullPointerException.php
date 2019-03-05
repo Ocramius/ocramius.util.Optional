@@ -24,7 +24,11 @@
  * questions.
  */
 
+declare(strict_types=1);
+
 namespace ocramius\util\exception;
+
+use RuntimeException;
 
 /**
  * Thrown when an application attempts to use {@code null} in a
@@ -47,6 +51,6 @@ namespace ocramius\util\exception;
  * Throwable, boolean, boolean) suppression were disabled and/or the
  * stack trace was not writable}.
  */
-class NullPointerException extends \RuntimeException
+class NullPointerException extends RuntimeException
 {
 }
