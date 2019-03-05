@@ -5,7 +5,7 @@
          colors="true"
          verbose="true">
     <testsuite name="ocramius\util\Optional tests">
-        <directory>./test/ocramius/utilTest</directory>
+        <directory>./tests/ocramius/utilTest</directory>
     </testsuite>
     <filter>
         <whitelist>

@@ -29,14 +29,13 @@
         "doctrine/coding-standard": "^5.0"
     },
     "autoload": {
-        "psr-0": {
-            "ocramius\\util\\": "src"
+        "psr-4": {
+            "ocramius\\util\\": "src/ocramius/util"
         }
     },
     "autoload-dev": {
-        "psr-0": {
-            "ocramius\\utilTest\\": "tests",
-            "ocramius\\utilTestAsset\\": "tests"
+        "psr-4": {
+            "ocramius\\utilTest\\": "tests/ocramius/utilTest"
         }
     }
 }
