@@ -29,6 +29,8 @@ use function sprintf;
  * (including reference equality ({@code ==}), identity hash code, or
  * synchronization) on instances of {@code Optional} may have unpredictable
  * results and should be avoided.
+ *
+ * @template T The type of the value residing in the Optional wrapper.
  */
 final class Optional
 {
@@ -42,7 +44,7 @@ final class Optional
     /**
      * If non-null, the value; if null, indicates no value is present
      *
-     * @var mixed
+     * @var T
      */
     private $value;
 
@@ -75,11 +77,13 @@ final class Optional
     /**
      * Returns an {@code Optional} with the specified present non-null value.
      *
-     * @param mixed $value the value to be present, which must be non-null
+     * @param T $value the value to be present, which must be non-null
      *
      * @return self an {@code Optional} with the value present
      *
      * @throws NullPointerException If value is null.
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
      */
     public static function of($value) : self
     {
@@ -98,10 +102,12 @@ final class Optional
      * Returns an {@code Optional} describing the specified value, if non-null,
      * otherwise returns an empty {@code Optional}.
      *
-     * @param mixed $value the possibly-null value to describe
+     * @param T|null $value the possibly-null value to describe
      *
      * @return self an {@code Optional} with a present value if the specified value
      * is non-null, otherwise an empty {@code Optional}
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
      */
     public static function ofNullable($value) : self
     {
@@ -114,9 +120,11 @@ final class Optional
      *
      * @see Optional#isPresent()
      *
-     * @return mixed the non-null value held by this {@code Optional}
+     * @return T the non-null value held by this {@code Optional}
      *
      * @throws NoSuchElementException If there is no value present.
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
      */
     public function get()
     {
@@ -224,12 +232,14 @@ final class Optional
      * @param callable $mapper a mapping function to apply to the value, if present
      *           the mapping function
      *
-     * @return mixed the result of applying an {@code Optional}-bearing mapping
+     * @return self<T> the result of applying an {@code Optional}-bearing mapping
      * function to the value of this {@code Optional}, if a value is present,
      * otherwise an empty {@code Optional}
      *
      * @throws NullPointerException If the mapping function is null or returns
      * a null result.
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
      */
     public function flatMap(callable $mapper)
     {
@@ -237,6 +247,7 @@ final class Optional
             return self::newEmpty();
         }
 
+        /** @var self<T>|null $result */
         $result = $mapper($this->value);
 
         if ($result === null) {
@@ -249,10 +260,12 @@ final class Optional
     /**
      * Return the value if present, otherwise return {@code other}.
      *
-     * @param mixed $other the value to be returned if there is no value present, may
+     * @param T $other the value to be returned if there is no value present, may
      * be null
      *
-     * @return mixed the value, if present, otherwise {@code other}
+     * @return T the value, if present, otherwise {@code other}
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
      */
     public function orElse($other)
     {
@@ -266,10 +279,12 @@ final class Optional
      * @param callable $other a {@code Supplier} whose result is returned if no value
      * is present
      *
-     * @return mixed the value if present otherwise the result of {@code other.get()}
+     * @return T the value if present otherwise the result of {@code other.get()}
      *
      * @throws NullPointerException If value is not present and {@code other} is
      * null.
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
      */
     public function orElseGet(callable $other)
     {
@@ -283,7 +298,7 @@ final class Optional
      * @param callable $exceptionSupplier The supplier which will return the exception to
      * be thrown
      *
-     * @return mixed the present value
+     * @return T the present value
      *
      * @throws Exception If there is no value present.
      * @throws NullPointerException If no value is present and
@@ -292,6 +307,8 @@ final class Optional
      * @apiNote A method reference to the exception constructor with an empty
      * argument list can be used as the supplier. For example,
      * {@code IllegalStateException::new}
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
      */
     public function orElseThrow(callable $exceptionSupplier)
     {

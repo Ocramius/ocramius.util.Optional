@@ -9,6 +9,7 @@ before_script:
 script:
   - ./vendor/bin/phpunit --coverage-clover ./clover.xml
   - ./vendor/bin/phpcs
+  - ./vendor/bin/psalm
 
 after_script:
   - sh .travis.coverage.sh
