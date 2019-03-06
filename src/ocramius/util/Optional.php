@@ -149,7 +149,7 @@ final class Optional
      * If a value is present, invoke the specified consumer with the value,
      * otherwise do nothing.
      *
-     * @param callable $consumer block to be executed if a value is present
+     * @param callable(T):void $consumer block to be executed if a value is present
      */
     public function ifPresent(callable $consumer) : void
     {
@@ -165,7 +165,7 @@ final class Optional
      * return an {@code Optional} describing the value, otherwise return an
      * empty {@code Optional}.
      *
-     * @param callable $predicate a predicate to apply to the value, if present
+     * @param callable(T):self $predicate a predicate to apply to the value, if present
      *
      * @return self an {@code Optional} describing the value of this {@code Optional}
      * if a value is present and the value matches the given predicate,
@@ -187,7 +187,7 @@ final class Optional
      * and if the result is non-null, return an {@code Optional} describing the
      * result.  Otherwise return an empty {@code Optional}.
      *
-     * @param callable $mapper a mapping function to apply to the value, if present
+     * @param callable(T):T $mapper a mapping function to apply to the value, if present
      *
      * @return self an {@code Optional} describing the result of applying a mapping
      * function to the value of this {@code Optional}, if a value is present,
@@ -229,7 +229,7 @@ final class Optional
      * and if invoked, {@code flatMap} does not wrap it with an additional
      * {@code Optional}.
      *
-     * @param callable $mapper a mapping function to apply to the value, if present
+     * @param callable(T):self<T> $mapper a mapping function to apply to the value, if present
      *           the mapping function
      *
      * @return self<T> the result of applying an {@code Optional}-bearing mapping
@@ -247,7 +247,6 @@ final class Optional
             return self::newEmpty();
         }
 
-        /** @var self<T>|null $result */
         $result = $mapper($this->value);
 
         if ($result === null) {
@@ -276,7 +275,7 @@ final class Optional
      * Return the value if present, otherwise invoke {@code other} and return
      * the result of that invocation.
      *
-     * @param callable $other a {@code Supplier} whose result is returned if no value
+     * @param callable():T $other a {@code Supplier} whose result is returned if no value
      * is present
      *
      * @return T the value if present otherwise the result of {@code other.get()}
@@ -295,7 +294,7 @@ final class Optional
      * Return the contained value, if present, otherwise throw an exception
      * to be created by the provided supplier.
      *
-     * @param callable $exceptionSupplier The supplier which will return the exception to
+     * @param callable():\Throwable $exceptionSupplier The supplier which will return the exception to
      * be thrown
      *
      * @return T the present value
