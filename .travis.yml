@@ -10,6 +10,7 @@ script:
   - ./vendor/bin/phpunit --coverage-clover ./clover.xml
   - ./vendor/bin/phpcs
   - ./vendor/bin/psalm
+  - ./vendor/bin/infection
 
 after_script:
   - sh .travis.coverage.sh
