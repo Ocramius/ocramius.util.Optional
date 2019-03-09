@@ -189,7 +189,7 @@ final class Optional
      *
      * @param callable(T):U $mapper a mapping function to apply to the value, if present
      *
-     * @return self an {@code Optional} describing the result of applying a mapping
+     * @return self<U> an {@code Optional} describing the result of applying a mapping
      * function to the value of this {@code Optional}, if a value is present,
      * otherwise an empty {@code Optional}
      *
