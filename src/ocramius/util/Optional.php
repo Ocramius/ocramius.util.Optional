@@ -187,7 +187,7 @@ final class Optional
      * and if the result is non-null, return an {@code Optional} describing the
      * result.  Otherwise return an empty {@code Optional}.
      *
-     * @param callable(T):T $mapper a mapping function to apply to the value, if present
+     * @param callable(T):U $mapper a mapping function to apply to the value, if present
      *
      * @return self an {@code Optional} describing the result of applying a mapping
      * function to the value of this {@code Optional}, if a value is present,
@@ -211,6 +211,8 @@ final class Optional
      * Here, {@code findFirst} returns an {@code Optional<String>}, and then
      * {@code map} returns an {@code Optional<FileInputStream>} for the desired
      * file if one exists.
+     *
+     * @template U
      */
     public function map(callable $mapper) : self
     {
@@ -229,10 +231,10 @@ final class Optional
      * and if invoked, {@code flatMap} does not wrap it with an additional
      * {@code Optional}.
      *
-     * @param callable(T):self<T> $mapper a mapping function to apply to the value, if present
+     * @param callable(T):self<U> $mapper a mapping function to apply to the value, if present
      *           the mapping function
      *
-     * @return self<T> the result of applying an {@code Optional}-bearing mapping
+     * @return self<U> the result of applying an {@code Optional}-bearing mapping
      * function to the value of this {@code Optional}, if a value is present,
      * otherwise an empty {@code Optional}
      *
@@ -240,6 +242,7 @@ final class Optional
      * a null result.
      *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
+     * @template U
      */
     public function flatMap(callable $mapper)
     {
