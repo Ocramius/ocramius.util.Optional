@@ -78,13 +78,13 @@ final class Optional
     /**
      * Returns an {@code Optional} with the specified present non-null value.
      *
-     * @psalm-param T $value
      * @param mixed $value the value to be present, which must be non-null
      *
      * @return self an {@code Optional} with the value present
      *
      * @throws NullPointerException If value is null.
      *
+     * @psalm-param T $value
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
      */
     public static function of($value) : self
@@ -104,12 +104,12 @@ final class Optional
      * Returns an {@code Optional} describing the specified value, if non-null,
      * otherwise returns an empty {@code Optional}.
      *
-     * @psalm-param T|null $value
      * @param mixed|null $value the possibly-null value to describe
      *
      * @return self an {@code Optional} with a present value if the specified value
      * is non-null, otherwise an empty {@code Optional}
      *
+     * @psalm-param T|null $value
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
      */
     public static function ofNullable($value) : self
@@ -123,11 +123,11 @@ final class Optional
      *
      * @see Optional#isPresent()
      *
-     * @psalm-return T
      * @return mixed the non-null value held by this {@code Optional}
      *
      * @throws NoSuchElementException If there is no value present.
      *
+     * @psalm-return T
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
      */
     public function get()
@@ -153,8 +153,9 @@ final class Optional
      * If a value is present, invoke the specified consumer with the value,
      * otherwise do nothing.
      *
-     * @psalm-param callable(T):void $consumer
      * @param callable $consumer block to be executed if a value is present
+     *
+     * @psalm-param callable(T):void $consumer
      */
     public function ifPresent(callable $consumer) : void
     {
@@ -170,7 +171,6 @@ final class Optional
      * return an {@code Optional} describing the value, otherwise return an
      * empty {@code Optional}.
      *
-     * @psalm-param callable(T):self $predicate
      * @param callable $predicate a predicate to apply to the value, if present
      *
      * @return self an {@code Optional} describing the value of this {@code Optional}
@@ -178,6 +178,8 @@ final class Optional
      * otherwise an empty {@code Optional}
      *
      * @throws NullPointerException If the predicate is null.
+     *
+     * @psalm-param callable(T):self $predicate
      */
     public function filter(callable $predicate) : self
     {
@@ -193,16 +195,16 @@ final class Optional
      * and if the result is non-null, return an {@code Optional} describing the
      * result.  Otherwise return an empty {@code Optional}.
      *
-     * @psalm-param callable(T):U $mapper
      * @param callable $mapper a mapping function to apply to the value, if present
      *
-     * @psalm-return self<U>
      * @return self an {@code Optional} describing the result of applying a mapping
      * function to the value of this {@code Optional}, if a value is present,
      * otherwise an empty {@code Optional}
      *
      * @throws NullPointerException If the mapping function is null.
      *
+     * @psalm-param callable(T):U $mapper
+     * @psalm-return self<U>
      * @apiNote This method supports post-processing on optional values, without
      * the need to explicitly check for a return status.  For example, the
      * following code traverses a stream of file names, selects one that has
@@ -219,7 +221,6 @@ final class Optional
      * Here, {@code findFirst} returns an {@code Optional<String>}, and then
      * {@code map} returns an {@code Optional<FileInputStream>} for the desired
      * file if one exists.
-     *
      * @template U
      */
     public function map(callable $mapper) : self
@@ -239,13 +240,9 @@ final class Optional
      * and if invoked, {@code flatMap} does not wrap it with an additional
      * {@code Optional}.
      *
-     * @template U
-     *
-     * @psalm-param callable(T):self<U> $mapper
      * @param callable $mapper a mapping function to apply to the value, if present
      *           the mapping function
      *
-     * @psalm-return U
      * @return self the result of applying an {@code Optional}-bearing mapping
      * function to the value of this {@code Optional}, if a value is present,
      * otherwise an empty {@code Optional}
@@ -253,6 +250,9 @@ final class Optional
      * @throws NullPointerException If the mapping function is null or returns
      * a null result.
      *
+     * @template U
+     * @psalm-param callable(T):self<U> $mapper
+     * @psalm-return U
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
      */
     public function flatMap(callable $mapper)
@@ -273,13 +273,13 @@ final class Optional
     /**
      * Return the value if present, otherwise return {@code other}.
      *
-     * @psalm-param T $other
      * @param mixed $other the value to be returned if there is no value present, may
      * be null
      *
-     * @psalm-return T
      * @return mixed the value, if present, otherwise {@code other}
      *
+     * @psalm-param T $other
+     * @psalm-return T
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
      */
     public function orElse($other)
@@ -291,16 +291,16 @@ final class Optional
      * Return the value if present, otherwise invoke {@code other} and return
      * the result of that invocation.
      *
-     * @psalm-param callable():T $other
      * @param callable $other a {@code Supplier} whose result is returned if no value
      * is present
      *
-     * @psalm-return T
      * @return mixed the value if present otherwise the result of {@code other.get()}
      *
      * @throws NullPointerException If value is not present and {@code other} is
      * null.
      *
+     * @psalm-param callable():T $other
+     * @psalm-return T
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
      */
     public function orElseGet(callable $other)
@@ -312,21 +312,20 @@ final class Optional
      * Return the contained value, if present, otherwise throw an exception
      * to be created by the provided supplier.
      *
-     * @psalm-param callable():\Throwable $exceptionSupplier
      * @param callable $exceptionSupplier The supplier which will return the exception to
      * be thrown
      *
-     * @psalm-return T
      * @return mixed the present value
      *
      * @throws Exception If there is no value present.
      * @throws NullPointerException If no value is present and
      * {@code exceptionSupplier} is null.
      *
+     * @psalm-param callable():\Throwable $exceptionSupplier
+     * @psalm-return T
      * @apiNote A method reference to the exception constructor with an empty
      * argument list can be used as the supplier. For example,
      * {@code IllegalStateException::new}
-     *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
      */
     public function orElseThrow(callable $exceptionSupplier)
