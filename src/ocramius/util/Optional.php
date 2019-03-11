@@ -44,7 +44,8 @@ final class Optional
     /**
      * If non-null, the value; if null, indicates no value is present
      *
-     * @var T
+     * @psalm-var T
+     * @var mixed
      */
     private $value;
 
@@ -77,7 +78,8 @@ final class Optional
     /**
      * Returns an {@code Optional} with the specified present non-null value.
      *
-     * @param T $value the value to be present, which must be non-null
+     * @psalm-param T $value
+     * @param mixed $value the value to be present, which must be non-null
      *
      * @return self an {@code Optional} with the value present
      *
@@ -102,7 +104,8 @@ final class Optional
      * Returns an {@code Optional} describing the specified value, if non-null,
      * otherwise returns an empty {@code Optional}.
      *
-     * @param T|null $value the possibly-null value to describe
+     * @psalm-param T|null $value
+     * @param mixed|null $value the possibly-null value to describe
      *
      * @return self an {@code Optional} with a present value if the specified value
      * is non-null, otherwise an empty {@code Optional}
@@ -120,7 +123,8 @@ final class Optional
      *
      * @see Optional#isPresent()
      *
-     * @return T the non-null value held by this {@code Optional}
+     * @psalm-return T
+     * @return mixed the non-null value held by this {@code Optional}
      *
      * @throws NoSuchElementException If there is no value present.
      *
@@ -149,7 +153,8 @@ final class Optional
      * If a value is present, invoke the specified consumer with the value,
      * otherwise do nothing.
      *
-     * @param callable(T):void $consumer block to be executed if a value is present
+     * @psalm-param callable(T):void $consumer
+     * @param callable $consumer block to be executed if a value is present
      */
     public function ifPresent(callable $consumer) : void
     {
@@ -165,7 +170,8 @@ final class Optional
      * return an {@code Optional} describing the value, otherwise return an
      * empty {@code Optional}.
      *
-     * @param callable(T):self $predicate a predicate to apply to the value, if present
+     * @psalm-param callable(T):self $predicate
+     * @param callable $predicate a predicate to apply to the value, if present
      *
      * @return self an {@code Optional} describing the value of this {@code Optional}
      * if a value is present and the value matches the given predicate,
@@ -187,9 +193,11 @@ final class Optional
      * and if the result is non-null, return an {@code Optional} describing the
      * result.  Otherwise return an empty {@code Optional}.
      *
-     * @param callable(T):U $mapper a mapping function to apply to the value, if present
+     * @psalm-param callable(T):U $mapper
+     * @param callable $mapper a mapping function to apply to the value, if present
      *
-     * @return self<U> an {@code Optional} describing the result of applying a mapping
+     * @psalm-return self<U>
+     * @return self an {@code Optional} describing the result of applying a mapping
      * function to the value of this {@code Optional}, if a value is present,
      * otherwise an empty {@code Optional}
      *
@@ -231,10 +239,14 @@ final class Optional
      * and if invoked, {@code flatMap} does not wrap it with an additional
      * {@code Optional}.
      *
-     * @param callable(T):self<U> $mapper a mapping function to apply to the value, if present
+     * @template U
+     *
+     * @psalm-param callable(T):self<U> $mapper
+     * @param callable $mapper a mapping function to apply to the value, if present
      *           the mapping function
      *
-     * @return self<U> the result of applying an {@code Optional}-bearing mapping
+     * @psalm-return U
+     * @return self the result of applying an {@code Optional}-bearing mapping
      * function to the value of this {@code Optional}, if a value is present,
      * otherwise an empty {@code Optional}
      *
@@ -242,7 +254,6 @@ final class Optional
      * a null result.
      *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
-     * @template U
      */
     public function flatMap(callable $mapper)
     {
@@ -262,10 +273,12 @@ final class Optional
     /**
      * Return the value if present, otherwise return {@code other}.
      *
-     * @param T $other the value to be returned if there is no value present, may
+     * @psalm-param T $other
+     * @param mixed $other the value to be returned if there is no value present, may
      * be null
      *
-     * @return T the value, if present, otherwise {@code other}
+     * @psalm-return T
+     * @return mixed the value, if present, otherwise {@code other}
      *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
      */
@@ -278,10 +291,12 @@ final class Optional
      * Return the value if present, otherwise invoke {@code other} and return
      * the result of that invocation.
      *
-     * @param callable():T $other a {@code Supplier} whose result is returned if no value
+     * @psalm-param callable():T $other
+     * @param callable $other a {@code Supplier} whose result is returned if no value
      * is present
      *
-     * @return T the value if present otherwise the result of {@code other.get()}
+     * @psalm-return T
+     * @return mixed the value if present otherwise the result of {@code other.get()}
      *
      * @throws NullPointerException If value is not present and {@code other} is
      * null.
@@ -297,10 +312,12 @@ final class Optional
      * Return the contained value, if present, otherwise throw an exception
      * to be created by the provided supplier.
      *
-     * @param callable():\Throwable $exceptionSupplier The supplier which will return the exception to
+     * @psalm-param callable():\Throwable $exceptionSupplier
+     * @param callable $exceptionSupplier The supplier which will return the exception to
      * be thrown
      *
-     * @return T the present value
+     * @psalm-return T
+     * @return mixed the present value
      *
      * @throws Exception If there is no value present.
      * @throws NullPointerException If no value is present and
