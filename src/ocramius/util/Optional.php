@@ -13,6 +13,7 @@ use Exception;
 use ocramius\util\exception\NoSuchElementException;
 use ocramius\util\exception\NullPointerException;
 use function sprintf;
+use function strval;
 
 /**
  * A container object which may or may not contain a non-null value.
@@ -252,7 +253,7 @@ final class Optional
      *
      * @template U
      * @psalm-param callable(T):self<U> $mapper
-     * @psalm-return U
+     * @psalm-return self<U>
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
      */
     public function flatMap(callable $mapper)
@@ -369,6 +370,6 @@ final class Optional
      */
     public function __toString() : string
     {
-        return $this->value === null ? 'Optional.empty' : sprintf('Optional[%s]', $this->value);
+        return $this->value === null ? 'Optional.empty' : sprintf('Optional[%s]', strval($this->value));
     }
 }
