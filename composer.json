@@ -28,7 +28,7 @@
         "squizlabs/php_codesniffer": "^3.5.3",
         "doctrine/coding-standard": "^5.0",
         "vimeo/psalm": "^3.7",
-        "infection/infection": "^0.15.0"
+        "infection/infection": "^0.15.3"
     },
     "autoload": {
         "psr-4": {
