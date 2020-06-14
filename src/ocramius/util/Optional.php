@@ -55,6 +55,8 @@ final class Optional
      *
      * @implNote Generally only one empty instance, {@link Optional#EMPTY},
      * should exist per VM.
+     *
+     * @psalm-return self<T>
      */
     private function __construct()
     {
@@ -82,9 +84,11 @@ final class Optional
      * @param mixed $value the value to be present, which must be non-null
      *
      * @return self an {@code Optional} with the value present
+     * @psalm-return self<T>
      *
      * @throws NullPointerException If value is null.
      *
+     * @psalm-template T
      * @psalm-param T $value
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
      */
@@ -110,6 +114,7 @@ final class Optional
      * @return self an {@code Optional} with a present value if the specified value
      * is non-null, otherwise an empty {@code Optional}
      *
+     * @psalm-template T
      * @psalm-param T|null $value
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
      */
