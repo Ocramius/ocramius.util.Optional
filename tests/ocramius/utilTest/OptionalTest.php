@@ -247,7 +247,7 @@ class OptionalTest extends TestCase
      */
     public function testFlatMappingNonEmptyOptionalProducesNonEmptyOptional($value): void
     {
-        $mappedValue = new stdClass();
+        $mappedValue = Optional::ofNullable(new stdClass);
         $mapper      = $this->getMockBuilder(stdClass::class)
             ->setMethods(['__invoke'])
             ->getMock();

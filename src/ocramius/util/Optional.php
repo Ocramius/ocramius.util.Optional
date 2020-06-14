@@ -40,7 +40,7 @@ final class Optional
     /**
      * Common instance for {@code empty()}.
      */
-    private static self $EMPTY;
+    private static ?self $EMPTY = null;
 
     /**
      * If non-null, the value; if null, indicates no value is present
