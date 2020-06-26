@@ -27,7 +27,7 @@
         "phpunit/phpunit": "^9.1.5",
         "squizlabs/php_codesniffer": "^3.5.3",
         "doctrine/coding-standard": "^8.0",
-        "vimeo/psalm": "^3.7",
+        "vimeo/psalm": "^3.12",
         "infection/infection": "^0.15.0"
     },
     "autoload": {
