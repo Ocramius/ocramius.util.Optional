@@ -12,6 +12,8 @@ namespace ocramius\util;
 use Exception;
 use ocramius\util\exception\NoSuchElementException;
 use ocramius\util\exception\NullPointerException;
+use Throwable;
+
 use function sprintf;
 use function strval;
 
@@ -37,10 +39,8 @@ final class Optional
 {
     /**
      * Common instance for {@code empty()}.
-     *
-     * @var self
      */
-    private static $EMPTY;
+    private static ?self $EMPTY = null;
 
     /**
      * If non-null, the value; if null, indicates no value is present
@@ -55,6 +55,7 @@ final class Optional
      *
      * @implNote Generally only one empty instance, {@link Optional#EMPTY},
      * should exist per VM.
+     * @psalm-return self<T>
      */
     private function __construct()
     {
@@ -71,7 +72,7 @@ final class Optional
      * {@code Option.empty()}. There is no guarantee that it is a singleton.
      * Instead, use {@link #isPresent()}.
      */
-    public static function newEmpty() : self
+    public static function newEmpty(): self
     {
         return self::$EMPTY ?: self::$EMPTY = new self();
     }
@@ -85,10 +86,12 @@ final class Optional
      *
      * @throws NullPointerException If value is null.
      *
+     * @psalm-return self<T>
+     * @psalm-template T
      * @psalm-param T $value
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
      */
-    public static function of($value) : self
+    public static function of($value): self
     {
         if ($value === null) {
             throw new NullPointerException();
@@ -110,10 +113,11 @@ final class Optional
      * @return self an {@code Optional} with a present value if the specified value
      * is non-null, otherwise an empty {@code Optional}
      *
+     * @psalm-template T
      * @psalm-param T|null $value
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
      */
-    public static function ofNullable($value) : self
+    public static function ofNullable($value): self
     {
         return $value === null ? self::newEmpty() : self::of($value);
     }
@@ -145,7 +149,7 @@ final class Optional
      *
      * @return bool {@code true} if there is a value present, otherwise {@code false}
      */
-    public function isPresent() : bool
+    public function isPresent(): bool
     {
         return $this->value !== null;
     }
@@ -158,7 +162,7 @@ final class Optional
      *
      * @psalm-param callable(T):void $consumer
      */
-    public function ifPresent(callable $consumer) : void
+    public function ifPresent(callable $consumer): void
     {
         if ($this->value === null) {
             return;
@@ -182,7 +186,7 @@ final class Optional
      *
      * @psalm-param callable(T):self $predicate
      */
-    public function filter(callable $predicate) : self
+    public function filter(callable $predicate): self
     {
         if ($this->value === null) {
             return $this;
@@ -224,7 +228,7 @@ final class Optional
      * file if one exists.
      * @template U
      */
-    public function map(callable $mapper) : self
+    public function map(callable $mapper): self
     {
         if ($this->value === null) {
             return self::newEmpty();
@@ -256,7 +260,7 @@ final class Optional
      * @psalm-return self<U>
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration
      */
-    public function flatMap(callable $mapper)
+    public function flatMap(callable $mapper): self
     {
         if ($this->value === null) {
             return self::newEmpty();
@@ -322,7 +326,7 @@ final class Optional
      * @throws NullPointerException If no value is present and
      * {@code exceptionSupplier} is null.
      *
-     * @psalm-param callable():\Throwable $exceptionSupplier
+     * @psalm-param callable(): Throwable $exceptionSupplier
      * @psalm-return T
      * @apiNote A method reference to the exception constructor with an empty
      * argument list can be used as the supplier. For example,
@@ -352,7 +356,7 @@ final class Optional
      * @return bool {code true} if the other object is "equal to" this object
      * otherwise {@code false}
      */
-    public function equals($object) : bool
+    public function equals($object): bool
     {
         return $object === $this || ($object instanceof self && $object->value === $this->value);
     }
@@ -368,7 +372,7 @@ final class Optional
      * representation in the result. Empty and present Optionals must be
      * unambiguously differentiable.
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->value === null ? 'Optional.empty' : sprintf('Optional[%s]', strval($this->value));
     }

@@ -13,6 +13,9 @@ use ReflectionException;
 use stdClass;
 use Throwable;
 
+use function assert;
+use function is_callable;
+
 /**
  * Tests for {@see \ocramius\util\Optional}
  *
@@ -20,17 +23,17 @@ use Throwable;
  */
 class OptionalTest extends TestCase
 {
-    public function testNewEmptyAlwaysProducesSameInstance() : void
+    public function testNewEmptyAlwaysProducesSameInstance(): void
     {
         $this->assertSame(Optional::newEmpty(), Optional::newEmpty());
     }
 
-    public function testNewEmptyProducesEmptyInstance() : void
+    public function testNewEmptyProducesEmptyInstance(): void
     {
         $this->assertFalse(Optional::newEmpty()->isPresent());
     }
 
-    public function testOfNullableFromEmptyValueProducesAnEmptyInstance() : void
+    public function testOfNullableFromEmptyValueProducesAnEmptyInstance(): void
     {
         $this->assertSame(Optional::newEmpty(), Optional::ofNullable(null));
     }
@@ -40,7 +43,7 @@ class OptionalTest extends TestCase
      *
      * @dataProvider getValidValues
      */
-    public function testOfNullableFromNonEmptyValueProducesNonEmptyInstance($value) : void
+    public function testOfNullableFromNonEmptyValueProducesNonEmptyInstance($value): void
     {
         $optional = Optional::ofNullable($value);
 
@@ -50,7 +53,7 @@ class OptionalTest extends TestCase
         $this->assertSame($value, $optional->get());
     }
 
-    public function testOfFromEmptyValueCausesExceptionWhenDisallowed() : void
+    public function testOfFromEmptyValueCausesExceptionWhenDisallowed(): void
     {
         $this->expectException(NullPointerException::class);
 
@@ -62,7 +65,7 @@ class OptionalTest extends TestCase
      *
      * @dataProvider getValidValues
      */
-    public function testOfFromNonEmptyValueProducesNonEmptyInstance($value) : void
+    public function testOfFromNonEmptyValueProducesNonEmptyInstance($value): void
     {
         $optional = Optional::of($value);
 
@@ -72,7 +75,7 @@ class OptionalTest extends TestCase
         $this->assertSame($value, $optional->get());
     }
 
-    public function testEmptyValueDisallowsGettingWrappedValue() : void
+    public function testEmptyValueDisallowsGettingWrappedValue(): void
     {
         $this->expectException(NoSuchElementException::class);
 
@@ -82,12 +85,12 @@ class OptionalTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testIfPresentIsNotExecutedIfValueIsNotPresent() : void
+    public function testIfPresentIsNotExecutedIfValueIsNotPresent(): void
     {
-        /** @var callable|MockObject $neverCalled */
         $neverCalled = $this->getMockBuilder(stdClass::class)
             ->setMethods(['__invoke'])
             ->getMock();
+        assert(is_callable($neverCalled) || $neverCalled instanceof MockObject);
 
         $neverCalled->expects($this->never())->method('__invoke');
 
@@ -101,12 +104,12 @@ class OptionalTest extends TestCase
      *
      * @dataProvider getValidValues
      */
-    public function testIfPresentIsExecutedWhenValueIsPresent($value) : void
+    public function testIfPresentIsExecutedWhenValueIsPresent($value): void
     {
-        /** @var callable|MockObject $calledOnce */
         $calledOnce = $this->getMockBuilder(stdClass::class)
             ->setMethods(['__invoke'])
             ->getMock();
+        assert(is_callable($calledOnce) || $calledOnce instanceof MockObject);
 
         $calledOnce->expects($this->once())->method('__invoke')->with($value);
 
@@ -116,12 +119,12 @@ class OptionalTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testFilterIsNotExecutedIfValueIsNotPresent() : void
+    public function testFilterIsNotExecutedIfValueIsNotPresent(): void
     {
-        /** @var callable|MockObject $neverCalled */
         $neverCalled = $this->getMockBuilder(stdClass::class)
             ->setMethods(['__invoke'])
             ->getMock();
+        assert(is_callable($neverCalled) || $neverCalled instanceof MockObject);
 
         $neverCalled->expects($this->never())->method('__invoke');
 
@@ -135,12 +138,12 @@ class OptionalTest extends TestCase
      *
      * @dataProvider getValidValues
      */
-    public function testFilteringProducesEmptyOptionalWhenValueIsNotAccepted($value) : void
+    public function testFilteringProducesEmptyOptionalWhenValueIsNotAccepted($value): void
     {
-        /** @var callable|MockObject $falseFilter */
         $falseFilter = $this->getMockBuilder(stdClass::class)
             ->setMethods(['__invoke'])
             ->getMock();
+        assert(is_callable($falseFilter) || $falseFilter instanceof MockObject);
 
         $falseFilter->expects($this->once())->method('__invoke')->with($value)->will($this->returnValue(false));
 
@@ -154,13 +157,13 @@ class OptionalTest extends TestCase
      *
      * @dataProvider getValidValues
      */
-    public function testFilteringProducesSameOptionalInstanceWhenValueIsAccepted($value) : void
+    public function testFilteringProducesSameOptionalInstanceWhenValueIsAccepted($value): void
     {
-        /** @var callable|MockObject $falseFilter */
         $falseFilter = $this->getMockBuilder(stdClass::class)
             ->setMethods(['__invoke'])
             ->getMock();
-        $optional    = Optional::of($value);
+        assert(is_callable($falseFilter) || $falseFilter instanceof MockObject);
+        $optional = Optional::of($value);
 
         $falseFilter->expects($this->once())->method('__invoke')->with($value)->will($this->returnValue(true));
 
@@ -170,12 +173,12 @@ class OptionalTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testMappingEmptyOptionalProducesEmptyOptional() : void
+    public function testMappingEmptyOptionalProducesEmptyOptional(): void
     {
-        /** @var callable|MockObject $neverCalled */
         $neverCalled = $this->getMockBuilder(stdClass::class)
             ->setMethods(['__invoke'])
             ->getMock();
+        assert(is_callable($neverCalled) || $neverCalled instanceof MockObject);
 
         $neverCalled->expects($this->never())->method('__invoke');
 
@@ -189,13 +192,13 @@ class OptionalTest extends TestCase
      *
      * @dataProvider getValidValues
      */
-    public function testMappingNonEmptyValuesProducesOptionalWithMapMethodReturnValue($value) : void
+    public function testMappingNonEmptyValuesProducesOptionalWithMapMethodReturnValue($value): void
     {
         $mappedValue = new stdClass();
-        /** @var callable|MockObject $mapper */
-        $mapper = $this->getMockBuilder(stdClass::class)
+        $mapper      = $this->getMockBuilder(stdClass::class)
             ->setMethods(['__invoke'])
             ->getMock();
+        assert(is_callable($mapper) || $mapper instanceof MockObject);
 
         $mapper->expects($this->once())->method('__invoke')->with($value)->will($this->returnValue($mappedValue));
 
@@ -208,12 +211,12 @@ class OptionalTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testMappingNonEmptyValuesMayProduceEmptyOptional() : void
+    public function testMappingNonEmptyValuesMayProduceEmptyOptional(): void
     {
-        /** @var callable|MockObject $mapper */
         $mapper = $this->getMockBuilder(stdClass::class)
             ->setMethods(['__invoke'])
             ->getMock();
+        assert(is_callable($mapper) || $mapper instanceof MockObject);
 
         $mapper->expects($this->once())->method('__invoke')->will($this->returnValue(null));
 
@@ -223,12 +226,12 @@ class OptionalTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testFlatMappingEmptyOptionalProducesEmptyOptional() : void
+    public function testFlatMappingEmptyOptionalProducesEmptyOptional(): void
     {
-        /** @var callable|MockObject $neverCalled */
         $neverCalled = $this->getMockBuilder(stdClass::class)
             ->setMethods(['__invoke'])
             ->getMock();
+        assert(is_callable($neverCalled) || $neverCalled instanceof MockObject);
 
         $neverCalled->expects($this->never())->method('__invoke');
 
@@ -242,13 +245,13 @@ class OptionalTest extends TestCase
      *
      * @dataProvider getValidValues
      */
-    public function testFlatMappingNonEmptyOptionalProducesNonEmptyOptional($value) : void
+    public function testFlatMappingNonEmptyOptionalProducesNonEmptyOptional($value): void
     {
-        $mappedValue = new stdClass();
-        /** @var callable|MockObject $mapper */
-        $mapper = $this->getMockBuilder(stdClass::class)
+        $mappedValue = Optional::ofNullable(new stdClass());
+        $mapper      = $this->getMockBuilder(stdClass::class)
             ->setMethods(['__invoke'])
             ->getMock();
+        assert(is_callable($mapper) || $mapper instanceof MockObject);
 
         $mapper->expects($this->once())->method('__invoke')->with($value)->will($this->returnValue($mappedValue));
 
@@ -258,12 +261,12 @@ class OptionalTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testFlatMappingNonEmptyOptionalDisallowsEmptyMapperResult() : void
+    public function testFlatMappingNonEmptyOptionalDisallowsEmptyMapperResult(): void
     {
-        /** @var callable|MockObject $mapper */
         $mapper = $this->getMockBuilder(stdClass::class)
             ->setMethods(['__invoke'])
             ->getMock();
+        assert(is_callable($mapper) || $mapper instanceof MockObject);
 
         $mapper->expects($this->once())->method('__invoke')->will($this->returnValue(null));
 
@@ -277,7 +280,7 @@ class OptionalTest extends TestCase
      *
      * @dataProvider getValidValues
      */
-    public function testOrElseRetrievesGivenValueOnEmptyOptional($value) : void
+    public function testOrElseRetrievesGivenValueOnEmptyOptional($value): void
     {
         $this->assertSame($value, Optional::newEmpty()->orElse($value));
     }
@@ -287,7 +290,7 @@ class OptionalTest extends TestCase
      *
      * @dataProvider getValidValues
      */
-    public function testOrElseRetrievesOptionalValueWhenValueIsPresent($value) : void
+    public function testOrElseRetrievesOptionalValueWhenValueIsPresent($value): void
     {
         $this->assertSame($value, Optional::of($value)->orElse(new stdClass()));
     }
@@ -299,12 +302,12 @@ class OptionalTest extends TestCase
      *
      * @dataProvider getValidValues
      */
-    public function testOrElseGetRetrievesCallableReturnValueOnEmptyOptional($value) : void
+    public function testOrElseGetRetrievesCallableReturnValueOnEmptyOptional($value): void
     {
-        /** @var callable|MockObject $fallback */
         $fallback = $this->getMockBuilder(stdClass::class)
             ->setMethods(['__invoke'])
             ->getMock();
+        assert(is_callable($fallback) || $fallback instanceof MockObject);
 
         $fallback->expects($this->once())->method('__invoke')->will($this->returnValue($value));
 
@@ -319,12 +322,12 @@ class OptionalTest extends TestCase
      *
      * @dataProvider getValidValues
      */
-    public function testOrElseThrowRetrievesGivenValueWhenValueIsAvailable($value) : void
+    public function testOrElseThrowRetrievesGivenValueWhenValueIsAvailable($value): void
     {
-        /** @var callable|MockObject $exceptionFactory */
         $exceptionFactory = $this->getMockBuilder(stdClass::class)
             ->setMethods(['__invoke'])
             ->getMock();
+        assert(is_callable($exceptionFactory) || $exceptionFactory instanceof MockObject);
 
         $exceptionFactory->expects($this->never())->method('__invoke');
 
@@ -334,13 +337,13 @@ class OptionalTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testOrElseThrowThrowsExceptionOnEmptyOptional() : void
+    public function testOrElseThrowThrowsExceptionOnEmptyOptional(): void
     {
-        $exception = new Exception();
-        /** @var callable|MockObject $exceptionFactory */
+        $exception        = new Exception();
         $exceptionFactory = $this->getMockBuilder(stdClass::class)
             ->setMethods(['__invoke'])
             ->getMock();
+        assert(is_callable($exceptionFactory) || $exceptionFactory instanceof MockObject);
 
         $exceptionFactory->expects($this->once())->method('__invoke')->will($this->returnValue($exception));
 
@@ -360,19 +363,19 @@ class OptionalTest extends TestCase
      *
      * @dataProvider getValidValues
      */
-    public function testOrElseGetRetrievesOptionalValueIfValueIsPresent($value) : void
+    public function testOrElseGetRetrievesOptionalValueIfValueIsPresent($value): void
     {
-        /** @var callable|MockObject $fallback */
         $fallback = $this->getMockBuilder(stdClass::class)
             ->setMethods(['__invoke'])
             ->getMock();
+        assert(is_callable($fallback) || $fallback instanceof MockObject);
 
         $fallback->expects($this->never())->method('__invoke');
 
         $this->assertSame($value, Optional::of($value)->orElseGet($fallback));
     }
 
-    public function testInequality() : void
+    public function testInequality(): void
     {
         $value1 = new stdClass();
         $value2 = new stdClass();
@@ -388,7 +391,7 @@ class OptionalTest extends TestCase
      *
      * @dataProvider getValidValues
      */
-    public function testEquals($value) : void
+    public function testEquals($value): void
     {
         $this->assertTrue(Optional::of($value)->equals(Optional::of($value)));
     }
@@ -398,13 +401,13 @@ class OptionalTest extends TestCase
      *
      * @dataProvider getValidValues
      */
-    public function testInequalityWithEmptyOptional($value) : void
+    public function testInequalityWithEmptyOptional($value): void
     {
         $this->assertFalse(Optional::of($value)->equals(Optional::newEmpty()));
         $this->assertFalse(Optional::newEmpty()->equals(Optional::of($value)));
     }
 
-    public function testStringCast() : void
+    public function testStringCast(): void
     {
         $this->assertSame('Optional.empty', (string) Optional::newEmpty());
         $this->assertSame('Optional[foo]', (string) Optional::of('foo'));
@@ -417,7 +420,7 @@ class OptionalTest extends TestCase
      *
      * @throws ReflectionException
      */
-    public function getValidValues() : array
+    public function getValidValues(): array
     {
         return [
             [new stdClass()],
